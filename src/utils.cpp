@@ -1,48 +1,56 @@
 #include "utils.hpp"
-#include "stats.hpp"
-#include <chrono>
 #include <iostream>
-#include <cstdio>
-#include <thread>
+#include <algorithm>
+#include <cmath>
+#include <numeric>
 
-double run_command(const std::string& cmd) {
-    auto start = std::chrono::high_resolution_clock::now();
+double mean(const std::vector<double>& values) {
+    if (values.empty()) return 0.0;
+    double sum = std::accumulate(values.begin(), values.end(), 0.0);
+    return sum / values.size();
+}
 
-    // Open process and discard output
-#ifdef _WIN32
-    FILE* pipe = POPEN((cmd + " > NUL 2>&1").c_str(), "r");
-#else
-    FILE* pipe = POPEN((cmd + " > /dev/null 2>&1").c_str(), "r");
-#endif
-    if (!pipe) return 0;
-
-    char buffer[128];
-    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        // Discard output
+double median(std::vector<double> values) {
+    if (values.empty()) return 0.0;
+    std::sort(values.begin(), values.end());
+    size_t mid = values.size() / 2;
+    if (values.size() % 2 == 0) {
+        return (values[mid - 1] + values[mid]) / 2.0;
+    } else {
+        return values[mid];
     }
-
-    PCLOSE(pipe);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> duration = end - start;
-    return duration.count();
 }
 
-void print_header() {
-    std::cout << "================ Benchmark Results ================\n";
+double stddev(const std::vector<double>& values, double mean_val) {
+    if (values.empty()) return 0.0;
+    double sum_sq = 0.0;
+    for (auto v : values) {
+        sum_sq += (v - mean_val) * (v - mean_val);
+    }
+    return std::sqrt(sum_sq / values.size());
 }
 
-void print_results(const std::string& cmd, const std::vector<double>& times) {
-    double mn = times.front();
-    double mx = times.back();
+void print_results(const std::vector<double>& times) {
     double m = mean(times);
     double med = median(times);
     double sd = stddev(times, m);
 
-    std::cout << "\nResults for \"" << cmd << "\":\n";
-    std::cout << "Min: " << mn << "s\n";
-    std::cout << "Max: " << mx << "s\n";
+    std::cout << "\n=== Benchmark Results ===\n";
+    std::cout << "Runs: " << times.size() << "\n";
     std::cout << "Mean: " << m << "s\n";
     std::cout << "Median: " << med << "s\n";
-    std::cout << "Stddev: " << sd << "s\n";
+    std::cout << "Std Dev: " << sd << "s\n";
+}
+
+void print_progress(double progress) {
+    int barWidth = 50;
+    std::cout << "[";
+    int pos = static_cast<int>(barWidth * progress);
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) std::cout << "=";
+        else if (i == pos) std::cout << ">";
+        else std::cout << " ";
+    }
+    std::cout << "] " << int(progress * 100.0) << " %\r";
+    std::cout.flush();
 }

@@ -1,15 +1,20 @@
-#pragma once
-#include <string>
+#ifndef BENCHMARK_HPP
+#define BENCHMARK_HPP
+
+#include <cstdint>
 #include <vector>
 
 struct BenchmarkResult {
-    int total_runs;
-    double total_time;
-    int score;
+    uint64_t iterations = 0;
+    double total_time = 0.0;
+    uint32_t total_threads = 0;
+    uint64_t score = 0;
 };
 
-// Run a command a fixed number of times (traditional benchmarking)
-std::vector<double> run_benchmark(const std::string& cmd, int runs = 5);
+// Run for a fixed duration (seconds)
+BenchmarkResult run_duration_benchmark(double duration_seconds);
 
-// Run a command repeatedly for a fixed duration (time-based benchmark)
-BenchmarkResult run_duration_benchmark(const std::string& cmd, double duration_seconds);
+// Run for a fixed number of 1-second runs
+std::vector<double> run_benchmark(int runs);
+
+#endif

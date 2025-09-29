@@ -1,76 +1,84 @@
 #include "benchmark.hpp"
 #include "utils.hpp"
-#include <vector>
-#include <iostream>
-#include <chrono>
 #include <thread>
+#include <vector>
 #include <atomic>
+#include <chrono>
 #include <cmath>
+#include <iostream>
 
-std::atomic<bool> stop_flag{false};
-std::atomic<uint64_t> total_iterations{0};
+static std::atomic<uint64_t> total_iterations(0);
 
-// CPU-intensive workload per thread
-void cpu_work_thread() {
-    const int iterations_per_loop = 1000000;
-    while (!stop_flag.load(std::memory_order_relaxed)) {
-        double x = 0.0;
-        for (int i = 0; i < iterations_per_loop; ++i) {
-            x += std::sin(i) * std::tan(i);
+void cpu_work_thread(std::atomic<bool>& running) {
+    uint64_t local_iterations = 0;
+    while (running.load(std::memory_order_relaxed)) {
+        int n = (local_iterations % 10000) + 2;
+        bool prime = true;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                prime = false;
+                break;
+            }
         }
-        (void)x;  // prevent optimization
-        total_iterations.fetch_add(1, std::memory_order_relaxed);
+        if (prime) {
+            // dummy sink
+        }
+        local_iterations++;
     }
+    total_iterations.fetch_add(local_iterations, std::memory_order_relaxed);
 }
 
-// Duration-based benchmark with auto-scaling score
-BenchmarkResult run_duration_benchmark(const std::string& /*unused*/, double duration_seconds) {
-    BenchmarkResult result{0, 0.0, 0};
-    stop_flag = false;
-    total_iterations = 0;
+BenchmarkResult run_duration_benchmark(double duration_seconds) {
+    BenchmarkResult result;
 
-    int thread_count = std::thread::hardware_concurrency();
+    total_iterations.store(0);
+    std::atomic<bool> running(true);
+
+    unsigned int thread_count = std::thread::hardware_concurrency();
+    if (thread_count == 0) thread_count = 4;
+    result.total_threads = thread_count;
+
     std::vector<std::thread> threads;
+    for (unsigned int t = 0; t < thread_count; t++) {
+        threads.emplace_back(cpu_work_thread, std::ref(running));
+    }
 
-    for (int t = 0; t < thread_count; ++t)
-        threads.emplace_back(cpu_work_thread);
+    auto start = std::chrono::high_resolution_clock::now();
+    auto end_time = start + std::chrono::duration<double>(duration_seconds);
 
-    auto start = std::chrono::steady_clock::now();
-    const int bar_width = 40;
-
-    while (true) {
-        auto now = std::chrono::steady_clock::now();
+    while (std::chrono::high_resolution_clock::now() < end_time) {
+        auto now = std::chrono::high_resolution_clock::now();
         double elapsed = std::chrono::duration<double>(now - start).count();
         double progress = elapsed / duration_seconds;
         if (progress > 1.0) progress = 1.0;
-
-        // progress bar
-        int pos = static_cast<int>(bar_width * progress);
-        std::cout << "\r[";
-        for (int i = 0; i < bar_width; ++i) {
-            if (i < pos) std::cout << "=";
-            else if (i == pos) std::cout << ">";
-            else std::cout << " ";
-        }
-        std::cout << "] " << int(progress * 100.0) << "%";
-        std::cout.flush();
-
-        if (elapsed >= duration_seconds)
-            break;
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        print_progress(progress);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
-    stop_flag = true;
-    for (auto& t : threads) t.join();
+    running.store(false);
+    for (auto& th : threads) {
+        th.join();
+    }
 
-    result.total_runs = thread_count;
     result.total_time = duration_seconds;
+    result.iterations = total_iterations.load(std::memory_order_relaxed);
 
-    // compute dynamic score: iterations per second * multiplier
-    double iterations_per_second = total_iterations.load() / duration_seconds;
-    result.score = static_cast<uint64_t>(iterations_per_second * 1000); // multiplier for readability
+    double iters_per_sec = static_cast<double>(result.iterations) / result.total_time;
+    result.score = static_cast<uint64_t>(iters_per_sec * 1000.0);
 
-    std::cout << std::endl;
+    std::cout << "\n"; // move progress bar down
     return result;
+}
+
+std::vector<double> run_benchmark(int runs) {
+    std::vector<double> times;
+    for (int i = 0; i < runs; i++) {
+        auto start = std::chrono::high_resolution_clock::now();
+        run_duration_benchmark(1.0);
+        auto end = std::chrono::high_resolution_clock::now();
+
+        double elapsed = std::chrono::duration<double>(end - start).count();
+        times.push_back(elapsed);
+    }
+    return times;
 }

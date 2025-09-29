@@ -1,14 +1,18 @@
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
+#include <vector>
 #include <string>
-#include <vector>   // <--- Add this line
 
-#ifdef _WIN32
-#define POPEN _popen
-#define PCLOSE _pclose
-#else
-#define POPEN popen
-#define PCLOSE pclose
+// Stats
+double mean(const std::vector<double>& values);
+double median(std::vector<double> values);
+double stddev(const std::vector<double>& values, double mean);
+
+// Results printing
+void print_results(const std::vector<double>& times);
+
+// Progress bar
+void print_progress(double progress);
+
 #endif
-
-double run_command(const std::string& cmd);
-void print_header();
-void print_results(const std::string& cmd, const std::vector<double>& times);
