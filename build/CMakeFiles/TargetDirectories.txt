@@ -1,0 +1,3 @@
+/home/henri/Pulsebench/build/CMakeFiles/benchmark.dir
+/home/henri/Pulsebench/build/CMakeFiles/edit_cache.dir
+/home/henri/Pulsebench/build/CMakeFiles/rebuild_cache.dir
