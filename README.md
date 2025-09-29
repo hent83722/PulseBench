@@ -103,11 +103,11 @@ Total Iterations (score): 12345678
 
 | Platform           | Build Command | Run Command                      |
 | ------------------ | ------------- | -------------------------------- |
-| Linux              | `./build.sh`  | `./pulsebench --duration 60`     |
-| macOS              | `./build.sh`  | `./pulsebench --duration 60`     |
-| Termux             | `./build.sh`  | `./pulsebench --duration 60`     |
-| Windows CMD        | `build.bat`   | `pulsebench.exe --duration 60`   |
-| Windows PowerShell | `build.bat`   | `.\pulsebench.exe --duration 60` |
+| Linux              | `./build.sh`  | `./benchmark --duration 60`     |
+| macOS              | `./build.sh`  | `./benchmark --duration 60`     |
+| Termux             | `./build.sh`  | `./benchmark --duration 60`     |
+| Windows CMD        | `build.bat`   | `./benchmark --duration 60`     |
+| Windows PowerShell | `build.bat`   | `./benchmark --duration 60`     |
 
 ## License 
 PulseBench is released under the MIT License. See LICENSE for details.
