@@ -1,241 +1,173 @@
 # PulseBench
 
-PulseBench is a **cross-platform CPU benchmark** that uses all CPU cores to stress-test your processor and give a performance score based on iterations per second. The longer you run it, the more accurate the results.  
+**PulseBench** is a high-performance, multi-threaded CPU benchmarking tool designed to measure CPU performance across multiple workload types and provide detailed profiling data. Unlike simple synthetic benchmarks, PulseBench uses a variety of workloads and can report hardware-level counters on Linux for in-depth analysis.
 
-It works on **Linux, Termux (Android), macOS, and Windows**.
+---
+
+## Table of Contents
+
+1. [Features](#features)  
+2. [Supported Workloads](#supported-workloads)  
+3. [Installation](#installation)  
+4. [Building from Source](#building-from-source)  
+5. [Usage](#usage)  
+6. [Benchmark Output](#benchmark-output)  
+7. [Extending PulseBench](#extending-pulsebench)  
+8. [Performance Counters](#performance-counters)  
+9. [Contributing](#contributing)  
+10. [License](#license)  
 
 ---
 
 ## Features
 
-- Multi-threaded, uses **100% CPU** across all cores.
-- Dynamic scoring based on iterations per second.
-- Duration-based benchmarking with **progress bar**.
-- Simple, portable, and cross-platform.
+- Multi-threaded CPU benchmarking.  
+- Multiple synthetic and realistic workload types: arithmetic, memory streaming, pointer chasing, branch-heavy, and SIMD operations.  
+- Optional hardware-level profiling using Linux `perf_event_open`.  
+- Aggregated and per-thread performance reporting.  
+- Portable across Linux, with stubbed perf counters on non-Linux platforms.  
+- Configurable runtime duration.  
+- Modular C++17 codebase with workload registry for easy extension.  
 
 ---
 
-## Requirements
+## Supported Workloads
 
-- **C++17 compatible compiler**: `g++`, `clang++`, or MSVC.
-- **CMake** and `make` (for Unix-like platforms).  
-- On Windows, `build.bat` uses your installed compiler (MSVC or MinGW).
+PulseBench includes several workloads, each targeting different aspects of CPU performance:
+
+| Workload | Description |
+|----------|-------------|
+| `compute` | CPU-bound floating-point arithmetic loops. Measures raw computational throughput. |
+| `stream` | Sequential memory reads/writes to test memory bandwidth and caching. |
+| `pointer_chase` | Random-access pointer chasing to stress memory latency and branch prediction. |
+| `branch` | Heavy branching operations to test CPU branch prediction and pipeline efficiency. |
+| `simd` | Vectorized SIMD operations using AVX/AVX2 to test modern vector instruction throughput. |
+
+> Workloads are modular and can be extended via the `workload_registry`.
 
 ---
 
-## Build Instructions
+## Installation
 
-### **Linux / macOS / Termux**
+### Dependencies
 
-1. Open a terminal in the project directory.  
-2. Make the build script executable:
+- C++17 compatible compiler (GCC 8+, Clang 7+, or MSVC 2019+).  
+- CMake 3.10 or higher.  
+- Linux only: optional `perf_event` support (`<linux/perf_event.h>`).  
+- Threading library (`<thread>`).
 
-#### **Linux**
+---
 
-```bash
-chmod +x build.sh
-```
-3. Run the build Script
+## Building from Source
 
-```bash
-./build.sh
-```
-- This will create the build folder, compile the project, and generate the 'benchmark' file.
-
-#### **Windows**
-
-1. Open Command Prompt or PowerShell in the project directory.
-
-2. Run the build script:
-
-```cmd
-build.bat
-```
-
-- This will compile and generate the 'benchmark' file.
-- Make sure your compiler (MSVC or MinGW) is in the PATH.
-
-## Running the Benchmark
-
-### Duration-based (recommended, uses all CPU cores)
-
-- In the project directory build folder, run this:
+Clone the repository and build using CMake:
 
 ```bash
-# Linux / macOS / Termux
-./pulsebench --duration 300   # runs for 5 minutes
-./pulsebench --duration 60    # runs for 1 minute
-
-# Windows
-./ --duration 300
+git clone https://github.com/hent83722/PulseBench.git
+cd PulseBench
+mkdir build && cd build
+cmake ..
+make
 ```
-- The longer the duration, the more accurate the score.
+The resulting executable will be pulsebench in the build directory.
 
-## Notes
+## Usage 
 
-- On Termux, install the following packages before building:
+PulseBench is run using the --duration flag to specify how long the benchmark should execute.
 
 ```bash
-pkg install clang cmake make
+./pulsebench --duration <seconds>
 ```
-- On macOS, install Xcode Command Line Tools:
+
+Example:
+
 ```bash
-xcode-select --install
+./pulsebench --duration 10
 ```
+This runs the default benchmark workload for 10 seconds across the number of threads detected on your CPU.
 
-- The score is calculated dynamically based on CPU iterations per second. Faster CPUs get higher scores automatically.
+### Notes
 
-- Use Ctrl+C to stop early, but the full duration is recommended for consistent results.
+- The benchmark runs a predefined set of workloads sequentially.
+- The --duration flag specifies total benchmark runtime in seconds.
+- Thread count is determined automatically from your system unless modified in the source code.
+- Without specifying a workload, PulseBench will run the 'compute' workload by default.
 
-## Example Output
+## Benchmark Output Example
 
-```diff
-Running CPU benchmark for 60 seconds...
-[=================>                  ] 50%
-...
+After execution, PulseBench produces a report:
+```yaml
+Running CPU benchmark for 10 seconds...
+[=======================================>] 99%
 ===== Benchmark Complete =====
 CPU Threads: 8
-Total Time: 60s
-Total Iterations (score): 12345678
+Total Time: 10s
+Score: 1234567890
 ```
 
-## Quick Start Table
+- Ops: Total operations performed by the thread.
 
-| Platform           | Build Command | Run Command                      |
-| ------------------ | ------------- | -------------------------------- |
-| Linux              | `./build.sh`  | `./benchmark --duration 60`     |
-| macOS              | `./build.sh`  | `./benchmark --duration 60`     |
-| Termux             | `./build.sh`  | `./benchmark --duration 60`     |
-| Windows CMD        | `build.bat`   | `./benchmark --duration 60`     |
-| Windows PowerShell | `build.bat`   | `./benchmark --duration 60`     |
+- Ops/sec: Total operations per second across all threads.
 
-# How PulseBench Works
+- Performance counters (Linux only):
 
-PulseBench is a cross-platform CPU benchmarking tool designed to measure the raw computational power of your processor. Instead of running arbitrary commands or depending on external programs, it generates a high and consistent CPU workload directly in C++. This ensures results are **portable, reproducible, and fair** across Linux, macOS, Windows, and Termux (Android).
+- instructions — total CPU instructions executed
 
----
+- cycles — total CPU cycles
 
-## 1. Core Principle
+- cache_refs — total cache references
 
-At its heart, PulseBench works by repeatedly executing **mathematical operations** as quickly as possible, across all available CPU cores, for a set duration. The total number of iterations completed in this time is then translated into a **benchmark score**.
+- cache_misses — total cache misses
 
-Why math operations?  
-- They are **CPU-bound** (no reliance on disk, GPU, or memory speeds).  
-- They scale well across multiple cores.  
-- They are predictable and consistent between runs.  
+- branch_misses — total branch prediction misses
 
-This makes the score representative of your CPU’s ability to handle heavy computational workloads.
+On non-Linux platforms, perf counters are stubbed and will return zero.
 
----
+## Extending PulseBench
 
-## 2. Multi-threaded Execution
+To add a new workload:
 
-When you start PulseBench, it detects the **number of logical CPU threads** available using `std::thread::hardware_concurrency()`.  
+1. Create a class inheriting from Workload in workloads.cpp.
 
-- If you have 8 threads, PulseBench spawns 8 worker threads.  
-- Each thread runs the same benchmark routine independently.  
-- The total work done is aggregated at the end for scoring.  
+2. Implement the required methods:
 
-This ensures that **all cores are fully utilized**, pushing your CPU to 100% usage during the benchmark.
+- init(int thread_id, size_t workset_bytes, size_t seed)
 
----
+- uint64_t run_batch(size_t batch_size)
 
-## 3. The Benchmark Loop
+- shutdown()
 
-Each worker thread performs a **tight loop of calculations** (such as repeated floating-point math or prime number checks). These operations are chosen because:
+- std::string name() const
 
-- They are lightweight enough to avoid bottlenecks outside the CPU.  
-- They cannot be trivially optimized away by the compiler (ensuring actual work happens).  
-- They scale linearly, making them easy to measure.  
+3. Register your workload in register_all_workloads():
+```cpp
+WorkloadRegistry::instance().register_factory("my_workload", [](){ return std::make_unique<MyWorkload>(); });
+```
 
-The loop continues until the specified **duration** has passed (default is 5 minutes, but you can adjust with `--duration`).  
+## Performance Counters
 
----
+Linux-only feature leveraging perf_event_open to measure:
 
-## 4. Time Measurement
+- CPU instructions executed
 
-PulseBench uses C++’s high-resolution timers (`std::chrono::high_resolution_clock`) to measure:
+- CPU cycles
 
-- **Start time** (when benchmark begins).  
-- **End time** (when the chosen duration expires).  
-- **Elapsed time** (used to compute how many iterations fit into the given period).  
+- Cache references and misses
 
-This guarantees accurate timing across platforms.
+- Branch misses
 
----
+## Contributing
 
-## 5. Progress Feedback
+Contributions are welcome! You can:
 
-Unlike traditional benchmarks that leave you waiting silently, PulseBench shows a **live progress bar** in the terminal:
+- Add new workloads.
 
-- The bar updates as time passes.  
-- It gives an estimate of how much time is left until the benchmark completes.  
-- This makes long runs (e.g., 5 minutes) easier to monitor.
+- Improve existing workload performance.
 
----
+- Extend perf counter support.
 
-## 6. Scoring System
+- Add CSV/JSON export for automated analysis.
 
-After the benchmark duration ends:
+## License
 
-1. Each thread reports how many iterations it completed.  
-2. The values are summed across all threads.  
-3. The total is divided by the elapsed time to get **iterations per second**.  
-4. This is then converted into a **PulseBench Score**.  
-
-The longer you run the benchmark, the **more accurate the score** becomes, since small timing variations and background system noise are averaged out.
-
----
-
-## 7. Portability
-
-PulseBench is written entirely in **C++17** and uses only the **C++ Standard Library**:
-
-- No external dependencies.  
-- No reliance on OS-specific APIs.  
-- Single codebase works across Linux, macOS, Windows, and Termux.  
-
-This makes it extremely portable and easy to build anywhere a C++ compiler is available.
-
----
-
-## 8. Efficiency and Use Cases
-
-- **Efficiency**: By default, PulseBench is designed to do the most CPU-intensive thing possible while keeping memory and I/O usage minimal.  
-- **Use Cases**:  
-  - Comparing CPUs across devices.  
-  - Checking scaling behavior of multi-core systems.  
-  - Stress-testing processors to ensure stability.  
-  - Quick, lightweight benchmark for developers or hobbyists.  
-
----
-
-## 9. Why Run Longer?
-
-The benchmark is **time-based, not iteration-based**. That means:
-
-- A short 10-second run gives you a rough estimate.  
-- A longer 5-minute run averages out more system noise, giving a **stable and repeatable score**.  
-- Advanced users may choose even longer runs for precision testing.
-
----
-
-## 10. Summary
-
-PulseBench works by:
-
-1. Detecting your CPU’s thread count.  
-2. Launching worker threads to run intense math calculations.  
-3. Measuring how much work can be done within the chosen time.  
-4. Aggregating results into a performance score.  
-5. Presenting results in a clear, user-friendly way.  
-
-This simple but effective method provides a reliable measure of CPU performance across any platform.
-
----
-
-📊 **In short**: PulseBench pushes your CPU to its limits, counts how much work it can do, and turns that into a score you can compare with others.
-
-
-## License 
-PulseBench is released under the MIT License. See LICENSE for details.
+PulseBench includes a LICENSE file. See LICENSE for full terms.

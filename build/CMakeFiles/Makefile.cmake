@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/henri/Pulsebench/CMakeLists.txt"
+  "/home/henri/PulseBench/CMakeLists.txt"
   "CMakeFiles/4.1.1/CMakeCCompiler.cmake"
   "CMakeFiles/4.1.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.1.1/CMakeSystem.cmake"
@@ -40,6 +40,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake"
   "/usr/share/cmake/Modules/CMakeTestCompilerCommon.cmake"
   "/usr/share/cmake/Modules/CMakeUnixFindMake.cmake"
+  "/usr/share/cmake/Modules/CheckCSourceCompiles.cmake"
+  "/usr/share/cmake/Modules/CheckIncludeFile.cmake"
+  "/usr/share/cmake/Modules/CheckLibraryExists.cmake"
   "/usr/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake"
   "/usr/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
   "/usr/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake"
@@ -100,12 +103,16 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake"
   "/usr/share/cmake/Modules/Compiler/zOS-C-DetermineCompiler.cmake"
   "/usr/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
+  "/usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
+  "/usr/share/cmake/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake/Modules/FindThreads.cmake"
   "/usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake"
   "/usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake"
   "/usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake"
   "/usr/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake"
   "/usr/share/cmake/Modules/Internal/CMakeInspectCLinker.cmake"
   "/usr/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake"
+  "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake"
   "/usr/share/cmake/Modules/Internal/FeatureTesting.cmake"
   "/usr/share/cmake/Modules/Linker/GNU-C.cmake"
   "/usr/share/cmake/Modules/Linker/GNU-CXX.cmake"
@@ -143,5 +150,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/benchmark.dir/DependInfo.cmake"
+  "CMakeFiles/pulsebench.dir/DependInfo.cmake"
   )

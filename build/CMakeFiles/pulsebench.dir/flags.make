@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/henri/Pulsebench/include
+CXX_INCLUDES = -I/home/henri/PulseBench/include -I/home/henri/PulseBench/src
 
 CXX_FLAGS = -std=gnu++17
 

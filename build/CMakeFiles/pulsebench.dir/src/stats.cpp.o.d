@@ -1,6 +1,6 @@
-CMakeFiles/benchmark.dir/src/stats.cpp.o: \
- /home/henri/Pulsebench/src/stats.cpp /usr/include/stdc-predef.h \
- /home/henri/Pulsebench/include/stats.hpp /usr/include/c++/15.2.1/vector \
+CMakeFiles/pulsebench.dir/src/stats.cpp.o: \
+ /home/henri/PulseBench/src/stats.cpp /usr/include/stdc-predef.h \
+ /home/henri/PulseBench/include/stats.hpp /usr/include/c++/15.2.1/vector \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \

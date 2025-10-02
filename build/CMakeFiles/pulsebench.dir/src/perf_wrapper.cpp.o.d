@@ -1,6 +1,6 @@
-CMakeFiles/benchmark.dir/src/main.cpp.o: \
- /home/henri/Pulsebench/src/main.cpp /usr/include/stdc-predef.h \
- /home/henri/Pulsebench/include/benchmark.hpp \
+CMakeFiles/pulsebench.dir/src/perf_wrapper.cpp.o: \
+ /home/henri/PulseBench/src/perf_wrapper.cpp /usr/include/stdc-predef.h \
+ /home/henri/PulseBench/include/perf_wrapper.hpp \
  /usr/include/c++/15.2.1/string \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -107,59 +107,32 @@ CMakeFiles/benchmark.dir/src/main.cpp.o: \
  /usr/include/c++/15.2.1/bits/stl_uninitialized.h \
  /usr/include/c++/15.2.1/bits/stl_vector.h \
  /usr/include/c++/15.2.1/bits/stl_bvector.h \
- /usr/include/c++/15.2.1/bits/vector.tcc \
- /home/henri/Pulsebench/include/utils.hpp \
- /home/henri/Pulsebench/include/stats.hpp \
- /usr/include/c++/15.2.1/iostream /usr/include/c++/15.2.1/ostream \
- /usr/include/c++/15.2.1/bits/ostream.h /usr/include/c++/15.2.1/ios \
- /usr/include/c++/15.2.1/exception \
- /usr/include/c++/15.2.1/bits/exception_ptr.h \
- /usr/include/c++/15.2.1/bits/cxxabi_init_exception.h \
- /usr/include/c++/15.2.1/typeinfo \
- /usr/include/c++/15.2.1/bits/nested_exception.h \
- /usr/include/c++/15.2.1/bits/ios_base.h \
- /usr/include/c++/15.2.1/ext/atomicity.h \
- /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr.h \
- /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
- /usr/include/linux/sched/types.h /usr/include/linux/types.h \
- /usr/include/asm/types.h /usr/include/asm-generic/types.h \
- /usr/include/asm-generic/int-ll64.h /usr/include/asm/bitsperlong.h \
- /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
- /usr/include/linux/stddef.h /usr/include/asm/posix_types.h \
- /usr/include/asm/posix_types_64.h /usr/include/asm-generic/posix_types.h \
- /usr/include/bits/types/struct_sched_param.h /usr/include/bits/cpu-set.h \
- /usr/include/time.h /usr/include/bits/time.h /usr/include/bits/timex.h \
- /usr/include/bits/types/struct_tm.h \
- /usr/include/bits/types/struct_itimerspec.h /usr/include/bits/setjmp.h \
- /usr/include/bits/types/struct___jmp_buf_tag.h \
- /usr/include/bits/pthread_stack_min-dynamic.h \
- /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/atomic_word.h \
- /usr/include/sys/single_threaded.h \
- /usr/include/c++/15.2.1/bits/locale_classes.h \
- /usr/include/c++/15.2.1/bits/locale_classes.tcc \
- /usr/include/c++/15.2.1/system_error \
- /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/error_constants.h \
- /usr/include/c++/15.2.1/stdexcept /usr/include/c++/15.2.1/streambuf \
- /usr/include/c++/15.2.1/bits/streambuf.tcc \
- /usr/include/c++/15.2.1/bits/basic_ios.h \
- /usr/include/c++/15.2.1/bits/locale_facets.h \
- /usr/include/c++/15.2.1/cwctype /usr/include/wctype.h \
- /usr/include/bits/wctype-wchar.h \
- /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h \
- /usr/include/c++/15.2.1/bits/streambuf_iterator.h \
- /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h \
- /usr/include/c++/15.2.1/bits/locale_facets.tcc \
- /usr/include/c++/15.2.1/bits/basic_ios.tcc \
- /usr/include/c++/15.2.1/bits/ostream.tcc /usr/include/c++/15.2.1/istream \
- /usr/include/c++/15.2.1/bits/istream.tcc /usr/include/c++/15.2.1/thread \
- /usr/include/c++/15.2.1/bits/std_thread.h \
- /usr/include/c++/15.2.1/bits/unique_ptr.h \
- /usr/include/c++/15.2.1/bits/this_thread_sleep.h \
- /usr/include/c++/15.2.1/bits/chrono.h /usr/include/c++/15.2.1/ratio \
- /usr/include/c++/15.2.1/cstdint \
+ /usr/include/c++/15.2.1/bits/vector.tcc /usr/include/c++/15.2.1/cstdint \
  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/stdint-uintn.h \
- /usr/include/bits/stdint-least.h /usr/include/c++/15.2.1/limits \
- /usr/include/c++/15.2.1/ctime \
- /usr/include/c++/15.2.1/bits/parse_numbers.h
+ /usr/include/bits/stdint-least.h /usr/include/linux/perf_event.h \
+ /usr/include/linux/types.h /usr/include/asm/types.h \
+ /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/asm/bitsperlong.h /usr/include/asm-generic/bitsperlong.h \
+ /usr/include/linux/posix_types.h /usr/include/linux/stddef.h \
+ /usr/include/asm/posix_types.h /usr/include/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h /usr/include/linux/ioctl.h \
+ /usr/include/asm/ioctl.h /usr/include/asm-generic/ioctl.h \
+ /usr/include/asm/byteorder.h \
+ /usr/include/linux/byteorder/little_endian.h /usr/include/linux/swab.h \
+ /usr/include/asm/swab.h /usr/include/c++/15.2.1/cstring \
+ /usr/include/string.h /usr/include/strings.h /usr/include/sys/syscall.h \
+ /usr/include/asm/unistd.h /usr/include/asm/unistd_64.h \
+ /usr/include/bits/syscall.h /usr/include/unistd.h \
+ /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+ /usr/include/bits/confname.h /usr/include/bits/getopt_posix.h \
+ /usr/include/bits/getopt_core.h /usr/include/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h /usr/include/sys/ioctl.h \
+ /usr/include/bits/ioctls.h /usr/include/asm/ioctls.h \
+ /usr/include/asm-generic/ioctls.h /usr/include/linux/sockios.h \
+ /usr/include/asm/sockios.h /usr/include/asm-generic/sockios.h \
+ /usr/include/bits/ioctl-types.h /usr/include/sys/ttydefaults.h \
+ /usr/include/fcntl.h /usr/include/bits/fcntl.h \
+ /usr/include/bits/fcntl-linux.h /usr/include/bits/types/struct_iovec.h \
+ /usr/include/linux/falloc.h /usr/include/bits/stat.h \
+ /usr/include/bits/struct_stat.h

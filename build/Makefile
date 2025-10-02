@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/henri/Pulsebench
+CMAKE_SOURCE_DIR = /home/henri/PulseBench
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/henri/Pulsebench/build
+CMAKE_BINARY_DIR = /home/henri/PulseBench/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/henri/Pulsebench/build/CMakeFiles /home/henri/Pulsebench/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/henri/PulseBench/build/CMakeFiles /home/henri/PulseBench/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/henri/Pulsebench/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/henri/PulseBench/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named benchmark
+# Target rules for targets named pulsebench
 
 # Build rule for target.
-benchmark: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 benchmark
-.PHONY : benchmark
+pulsebench: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pulsebench
+.PHONY : pulsebench
 
 # fast build rule for target.
-benchmark/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/build
-.PHONY : benchmark/fast
+pulsebench/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/build
+.PHONY : pulsebench/fast
 
 src/benchmark.o: src/benchmark.cpp.o
 .PHONY : src/benchmark.o
 
 # target to build an object file
 src/benchmark.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/benchmark.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/benchmark.cpp.o
 .PHONY : src/benchmark.cpp.o
 
 src/benchmark.i: src/benchmark.cpp.i
@@ -142,7 +142,7 @@ src/benchmark.i: src/benchmark.cpp.i
 
 # target to preprocess a source file
 src/benchmark.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/benchmark.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/benchmark.cpp.i
 .PHONY : src/benchmark.cpp.i
 
 src/benchmark.s: src/benchmark.cpp.s
@@ -150,7 +150,7 @@ src/benchmark.s: src/benchmark.cpp.s
 
 # target to generate assembly for a file
 src/benchmark.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/benchmark.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/benchmark.cpp.s
 .PHONY : src/benchmark.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -158,7 +158,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -166,7 +166,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -174,15 +174,39 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/perf_wrapper.o: src/perf_wrapper.cpp.o
+.PHONY : src/perf_wrapper.o
+
+# target to build an object file
+src/perf_wrapper.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/perf_wrapper.cpp.o
+.PHONY : src/perf_wrapper.cpp.o
+
+src/perf_wrapper.i: src/perf_wrapper.cpp.i
+.PHONY : src/perf_wrapper.i
+
+# target to preprocess a source file
+src/perf_wrapper.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/perf_wrapper.cpp.i
+.PHONY : src/perf_wrapper.cpp.i
+
+src/perf_wrapper.s: src/perf_wrapper.cpp.s
+.PHONY : src/perf_wrapper.s
+
+# target to generate assembly for a file
+src/perf_wrapper.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/perf_wrapper.cpp.s
+.PHONY : src/perf_wrapper.cpp.s
 
 src/stats.o: src/stats.cpp.o
 .PHONY : src/stats.o
 
 # target to build an object file
 src/stats.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/stats.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/stats.cpp.o
 .PHONY : src/stats.cpp.o
 
 src/stats.i: src/stats.cpp.i
@@ -190,7 +214,7 @@ src/stats.i: src/stats.cpp.i
 
 # target to preprocess a source file
 src/stats.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/stats.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/stats.cpp.i
 .PHONY : src/stats.cpp.i
 
 src/stats.s: src/stats.cpp.s
@@ -198,7 +222,7 @@ src/stats.s: src/stats.cpp.s
 
 # target to generate assembly for a file
 src/stats.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/stats.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/stats.cpp.s
 .PHONY : src/stats.cpp.s
 
 src/utils.o: src/utils.cpp.o
@@ -206,7 +230,7 @@ src/utils.o: src/utils.cpp.o
 
 # target to build an object file
 src/utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/utils.cpp.o
 .PHONY : src/utils.cpp.o
 
 src/utils.i: src/utils.cpp.i
@@ -214,7 +238,7 @@ src/utils.i: src/utils.cpp.i
 
 # target to preprocess a source file
 src/utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/utils.cpp.i
 .PHONY : src/utils.cpp.i
 
 src/utils.s: src/utils.cpp.s
@@ -222,8 +246,56 @@ src/utils.s: src/utils.cpp.s
 
 # target to generate assembly for a file
 src/utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/benchmark.dir/build.make CMakeFiles/benchmark.dir/src/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/utils.cpp.s
 .PHONY : src/utils.cpp.s
+
+src/workload_registry.o: src/workload_registry.cpp.o
+.PHONY : src/workload_registry.o
+
+# target to build an object file
+src/workload_registry.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/workload_registry.cpp.o
+.PHONY : src/workload_registry.cpp.o
+
+src/workload_registry.i: src/workload_registry.cpp.i
+.PHONY : src/workload_registry.i
+
+# target to preprocess a source file
+src/workload_registry.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/workload_registry.cpp.i
+.PHONY : src/workload_registry.cpp.i
+
+src/workload_registry.s: src/workload_registry.cpp.s
+.PHONY : src/workload_registry.s
+
+# target to generate assembly for a file
+src/workload_registry.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/workload_registry.cpp.s
+.PHONY : src/workload_registry.cpp.s
+
+src/workloads.o: src/workloads.cpp.o
+.PHONY : src/workloads.o
+
+# target to build an object file
+src/workloads.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/workloads.cpp.o
+.PHONY : src/workloads.cpp.o
+
+src/workloads.i: src/workloads.cpp.i
+.PHONY : src/workloads.i
+
+# target to preprocess a source file
+src/workloads.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/workloads.cpp.i
+.PHONY : src/workloads.cpp.i
+
+src/workloads.s: src/workloads.cpp.s
+.PHONY : src/workloads.s
+
+# target to generate assembly for a file
+src/workloads.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pulsebench.dir/build.make CMakeFiles/pulsebench.dir/src/workloads.cpp.s
+.PHONY : src/workloads.cpp.s
 
 # Help Target
 help:
@@ -233,19 +305,28 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... benchmark"
+	@echo "... pulsebench"
 	@echo "... src/benchmark.o"
 	@echo "... src/benchmark.i"
 	@echo "... src/benchmark.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/perf_wrapper.o"
+	@echo "... src/perf_wrapper.i"
+	@echo "... src/perf_wrapper.s"
 	@echo "... src/stats.o"
 	@echo "... src/stats.i"
 	@echo "... src/stats.s"
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"
+	@echo "... src/workload_registry.o"
+	@echo "... src/workload_registry.i"
+	@echo "... src/workload_registry.s"
+	@echo "... src/workloads.o"
+	@echo "... src/workloads.i"
+	@echo "... src/workloads.s"
 .PHONY : help
 
 

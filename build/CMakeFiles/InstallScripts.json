@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/home/henri/Pulsebench/build/cmake_install.cmake"
+		"/home/henri/PulseBench/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
