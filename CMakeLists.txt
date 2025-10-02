@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
-project(BenchmarkTool)
+project(PulseBench)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(include)
+include_directories(include src)
 
-add_executable(benchmark
-    src/main.cpp
-    src/benchmark.cpp
-    src/utils.cpp
-    src/stats.cpp
+file(GLOB SRC_FILES
+    src/*.cpp
 )
+
+add_executable(pulsebench ${SRC_FILES})
+
+find_package(Threads REQUIRED)
+target_link_libraries(pulsebench PRIVATE Threads::Threads)
