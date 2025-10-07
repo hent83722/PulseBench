@@ -4,3 +4,9 @@ dist/
 *.exe
 *.AppImage
 
+build/
+dist/
+*.pkg
+*.AppImage
+*.exe
+
