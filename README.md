@@ -4,7 +4,7 @@
   
 **PulseBench** is a high-performance, multi-threaded CPU benchmarking tool designed to measure CPU performance across multiple workload types and provide detailed profiling data. Unlike simple synthetic benchmarks, PulseBench uses a variety of workloads and can report hardware-level counters on Linux for in-depth analysis.
 
----
+--- 
    
 ## PulseBench V1.1.0 is here!
 
