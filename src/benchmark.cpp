@@ -10,7 +10,6 @@
 std::atomic<bool> stop_flag{false};
 std::atomic<uint64_t> total_iterations{0};
 
-// CPU-intensive workload per thread
 void cpu_work_thread() {
     const int iterations_per_loop = 1000000;
     while (!stop_flag.load(std::memory_order_relaxed)) {
@@ -18,12 +17,12 @@ void cpu_work_thread() {
         for (int i = 0; i < iterations_per_loop; ++i) {
             x += std::sin(i) * std::tan(i);
         }
-        (void)x;  // prevent optimization
+        (void)x; 
         total_iterations.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
-// Duration-based benchmark with auto-scaling score
+
 BenchmarkResult run_duration_benchmark(const std::string& /*unused*/, double duration_seconds) {
     BenchmarkResult result{0, 0.0, 0};
     stop_flag = false;
@@ -44,7 +43,7 @@ BenchmarkResult run_duration_benchmark(const std::string& /*unused*/, double dur
         double progress = elapsed / duration_seconds;
         if (progress > 1.0) progress = 1.0;
 
-        // progress bar
+    
         int pos = static_cast<int>(bar_width * progress);
         std::cout << "\r[";
         for (int i = 0; i < bar_width; ++i) {
@@ -67,9 +66,9 @@ BenchmarkResult run_duration_benchmark(const std::string& /*unused*/, double dur
     result.total_runs = thread_count;
     result.total_time = duration_seconds;
 
-    // compute dynamic score: iterations per second * multiplier
+
     double iterations_per_second = total_iterations.load() / duration_seconds;
-    result.score = static_cast<uint64_t>(iterations_per_second * 1000); // multiplier for readability
+    result.score = static_cast<uint64_t>(iterations_per_second * 1000); 
 
     std::cout << std::endl;
     return result;

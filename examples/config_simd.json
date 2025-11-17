@@ -1,0 +1,8 @@
+{
+  "workload": "simd",
+  "duration": 10,
+  "threads": 4,
+  "workset_bytes": 134217728,
+  "output": "simd_results.json",
+  "format": "json"
+}

@@ -8,7 +8,6 @@
 double run_command(const std::string& cmd) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Open process and discard output
 #ifdef _WIN32
     FILE* pipe = POPEN((cmd + " > NUL 2>&1").c_str(), "r");
 #else
@@ -18,7 +17,7 @@ double run_command(const std::string& cmd) {
 
     char buffer[128];
     while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        // Discard output
+
     }
 
     PCLOSE(pipe);

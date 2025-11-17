@@ -12,9 +12,32 @@ See the release log: [V1.1.0Log.md](./V1.1.0Log.md)
 
 ---
 
+## PulseBench V1.2.0 (beta)
+
+PulseBench V1.2.0 is a beta release that expands the CLI, improves statistics and adds
+result export, presets, unit tests and a tiny plotting utility to help you visualize
+benchmark results quickly. The full, detailed release notes are in [V1.2.0Log.md](./V1.2.0Log.md).
+
+Highlights in v1.2.0:
+
+- New CLI options: `--config <file>`, `--workload <name>`, `--threads <n>`, `--workset <bytes>`, `--output <file>`, `--format <json|csv>`, and `--list`.
+- JSON export now contains `stats.percentiles` (50/90/99) and a 10-bin `histogram_bins` array.
+- Added simple workloads `memcpy` and `io` as examples of memory-bound and IO-bound tests.
+- Unit tests (Catch2) and a `tests` target in CMake to run them.
+- `scripts/plot_results.py` — a convenience script to visualize JSON/CSV results.
+
+Quick links:
+
+- Release notes: [V1.2.0Log.md](./V1.2.0Log.md)
+- Example configs: `examples/config_simd.json`, `examples/config_io.json`
+- Example run script: `examples/example.sh`
+- Plotting script: `scripts/plot_results.py`
+
+---
+
 ## Table of Contents
 
-1. [Features](#features)  
+1. [Features](#features)
 2. [Supported Workloads](#supported-workloads)  
 3. [Installation](#installation)  
 4. [Building from Source](#building-from-source)  

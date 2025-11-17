@@ -4,16 +4,19 @@
 #include <memory>
 #include <thread>
 #include <iostream>
+#include <cstring>
+#include <fstream>
+#include <vector>
 
 void SIMDWorkload::init(int threads, size_t workset_bytes_) {
-    // Fill with some non-zero data
+
     data.resize(workset_bytes_ / sizeof(float), 0.1f);
     s = 0;
 }
 
-// This is the CPU-heavy function
+
 uint64_t SIMDWorkload::run_batch() {
-    // Realistic CPU stress: math + memory accesses
+
     for (size_t i = 0; i < data.size(); ++i) {
         data[i] = std::sin(data[i]) * std::cos(data[i]) + std::sqrt(data[i]);
         s += static_cast<uint64_t>(std::llround(data[i] * 1000));
@@ -29,10 +32,62 @@ std::string SIMDWorkload::name() const {
     return "simd";
 }
 
-// Register SIMD workload
+
 void register_builtin_workloads() {
     auto &reg = WorkloadRegistry::instance();
     reg.register_factory("simd", []() -> std::unique_ptr<Workload> {
         return std::make_unique<SIMDWorkload>();
+    });
+
+    reg.register_factory("memcpy", []() -> std::unique_ptr<Workload> {
+        class MemcpyWorkload : public Workload {
+        public:
+            void init(int threads, size_t workset_bytes) override {
+                buf.resize(workset_bytes / 2, 1);
+                tmp.resize(workset_bytes / 2);
+            }
+            uint64_t run_batch() override {
+                for (size_t i = 0; i + 1024 < buf.size(); i += 1024) {
+                    std::memcpy(&tmp[i], &buf[i], 1024);
+                }
+                counter++;
+                return counter;
+            }
+            void shutdown() override { buf.clear(); tmp.clear(); }
+            std::string name() const override { return "memcpy"; }
+        private:
+            std::vector<char> buf;
+            std::vector<char> tmp;
+            uint64_t counter = 0;
+        };
+        return std::make_unique<MemcpyWorkload>();
+    });
+
+    reg.register_factory("io", []() -> std::unique_ptr<Workload> {
+        class IOWorkload : public Workload {
+        public:
+            void init(int threads, size_t workset_bytes) override {
+                // keep a small file path
+                path = "/tmp/pulsebench_io_test.bin";
+                // pre-create file
+                std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
+                std::vector<char> block(4096, 'x');
+                for (int i=0;i<4;i++) ofs.write(block.data(), block.size());
+            }
+            uint64_t run_batch() override {
+                std::ofstream ofs(path, std::ios::binary | std::ios::app);
+                std::vector<char> block(4096, 'y');
+                ofs.write(block.data(), block.size());
+                ofs.close();
+                counter++;
+                return counter;
+            }
+            void shutdown() override { /* leave file for inspection */ }
+            std::string name() const override { return "io"; }
+        private:
+            std::string path;
+            uint64_t counter = 0;
+        };
+        return std::make_unique<IOWorkload>();
     });
 }

@@ -1,0 +1,117 @@
+Running with debug output on.
+-- The C compiler identification is GNU 15.2.1
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake
+-- The CXX compiler identification is GNU 15.2.1
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake
+CMake Warning (dev) at /usr/share/cmake/Modules/CMakeFindBinUtils.cmake:238 (find_program):
+  Policy CMP0126 is not set: set(CACHE) does not remove a normal variable of
+  the same name.  Run "cmake --help-policy CMP0126" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning.
+
+  For compatibility with older versions of CMake, normal variable
+  "CMAKE_TAPI" will be removed from the current scope.
+Call Stack (most recent call first):
+  /usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)
+  CMakeLists.txt:4 (project)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeFindBinUtils.cmake
+-- Detecting C compiler ABI info
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake
+-- Detecting C compiler ABI info - done
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake
+-- Check for working C compiler: /usr/bin/cc - skipped
+   Called from: [2]	/home/henri/PulseBench/CMakeLists.txt
+                [1]	/usr/share/cmake/Modules/CMakeTestCCompiler.cmake
+-- Detecting C compile features
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake
+-- Detecting C compile features - done
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake
+-- Detecting CXX compiler ABI info
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake
+-- Detecting CXX compiler ABI info - done
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+   Called from: [2]	/home/henri/PulseBench/CMakeLists.txt
+                [1]	/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake
+-- Detecting CXX compile features
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake
+-- Detecting CXX compile features - done
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake
+                [1]	/usr/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+   Called from: [5]	/home/henri/PulseBench/CMakeLists.txt
+                [4]	/usr/share/cmake/Modules/FindThreads.cmake
+                [3]	/usr/share/cmake/Modules/FindThreads.cmake
+                [2]	/usr/share/cmake/Modules/CheckCSourceCompiles.cmake
+                [1]	/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+   Called from: [5]	/home/henri/PulseBench/CMakeLists.txt
+                [4]	/usr/share/cmake/Modules/FindThreads.cmake
+                [3]	/usr/share/cmake/Modules/FindThreads.cmake
+                [2]	/usr/share/cmake/Modules/CheckCSourceCompiles.cmake
+                [1]	/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake
+-- Found Threads: TRUE
+   Called from: [4]	/home/henri/PulseBench/CMakeLists.txt
+                [3]	/usr/share/cmake/Modules/FindThreads.cmake
+                [2]	/usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake
+                [1]	/usr/share/cmake/Modules/FindPackageMessage.cmake
+   Entering             /home/henri/PulseBench/build/_deps/catch2-src
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/FetchContent.cmake
+                [1]	/usr/share/cmake/Modules/FetchContent.cmake
+CMake Deprecation Warning at build/_deps/catch2-src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+   Called from: [1]	/home/henri/PulseBench/build/_deps/catch2-src/CMakeLists.txt
+   Returning to         /home/henri/PulseBench
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/FetchContent.cmake
+                [1]	/usr/share/cmake/Modules/FetchContent.cmake
+   Entering             /home/henri/PulseBench/build/_deps/nlohmann_json-src
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/FetchContent.cmake
+                [1]	/usr/share/cmake/Modules/FetchContent.cmake
+CMake Error at build/_deps/nlohmann_json-src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 has been removed from CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+  Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
+
+
+   Called from: [1]	/home/henri/PulseBench/build/_deps/nlohmann_json-src/CMakeLists.txt
+   Returning to         /home/henri/PulseBench
+   Called from: [3]	/home/henri/PulseBench/CMakeLists.txt
+                [2]	/usr/share/cmake/Modules/FetchContent.cmake
+                [1]	/usr/share/cmake/Modules/FetchContent.cmake
+-- Configuring incomplete, errors occurred!

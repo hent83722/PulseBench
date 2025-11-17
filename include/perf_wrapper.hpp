@@ -15,7 +15,7 @@ struct PerfCounters {
     uint64_t branch_misses = 0;
 };
 
-// Opaque handle
+
 struct PerfHandle;
 
 PerfHandle* perf_create();
@@ -25,7 +25,7 @@ void perf_disable(PerfHandle* h);
 PerfCounters perf_read(PerfHandle* h);
 void perf_destroy(PerfHandle* h);
 
-// Perf constants wrapper (portable)
+
 #ifdef __linux__
 namespace PerfEvents {
     constexpr uint32_t TYPE_HW = PERF_TYPE_HARDWARE;

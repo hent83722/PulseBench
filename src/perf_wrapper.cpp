@@ -93,7 +93,7 @@ void perf_destroy(PerfHandle* h) {
 }
 
 #else
-// No-op stubs for non-linux
+
 struct PerfHandle {};
 PerfHandle* perf_create(){ return nullptr; }
 void perf_reset(PerfHandle*) {}
