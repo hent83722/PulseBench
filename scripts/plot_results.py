@@ -30,13 +30,13 @@ if ext == '.json':
     stats = j.get('stats', {})
     percentiles = stats.get('percentiles', {})
     hist = j.get('histogram_bins', [])
-    # display basic info
+
     print('Workload:', j.get('workload'))
     print('Threads:', j.get('threads'))
     print('Duration (s):', j.get('duration_seconds'))
     print('Throughput (batches/s):', j.get('throughput_batches_per_s'))
 
-    # plot histogram
+
     if hist:
         plt.figure()
         plt.bar(range(len(hist)), hist)
@@ -44,7 +44,7 @@ if ext == '.json':
         plt.xlabel('Bin')
         plt.ylabel('Count')
 
-    # percentiles
+
     if percentiles:
         keys = sorted([float(k) for k in percentiles.keys()])
         vals = [percentiles[str(int(k))] for k in keys]
@@ -68,7 +68,7 @@ elif ext == '.csv':
     print('Threads:', row.get('threads'))
     print('Duration:', row.get('duration_seconds'))
     print('Throughput (batches/s):', row.get('throughput_bps'))
-    # no histogram in CSV
+
     sys.exit(0)
 
 else:
