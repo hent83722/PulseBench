@@ -2,6 +2,7 @@
 #include "workload_registry.hpp"
 #include "stats.hpp"
 #include <nlohmann/json.hpp>
+#include <cmath>
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -127,15 +128,24 @@ int main(int argc, char **argv) {
 
     Stats st = compute_stats(samples);
 
-    // compact score: throughput in batches/sec
+
     double throughput = 0.0;
     if (duration_seconds > 0) throughput = static_cast<double>(total_batches.load()) / duration_seconds;
+
+
+    auto compact_score = [](double t)->int{
+        if (t <= 0.0) return 0;
+        double v = 1000.0 * std::log10(t + 1.0);
+        return static_cast<int>(std::round(v));
+    };
+    int score = compact_score(throughput);
 
     std::cout << "Workload: " << workload_name << std::endl;
     std::cout << "CPU Threads: " << threads << std::endl;
     std::cout << "Total Time: " << duration_seconds << "s" << std::endl;
     std::cout << "Total Batches: " << total_batches.load() << std::endl;
     std::cout << "Throughput (batches/s): " << std::fixed << std::setprecision(3) << throughput << std::endl;
+    std::cout << "Score: " << score << " (compact)" << std::endl;
     std::cout << "Sample mean (ms): " << st.mean << " median: " << st.median << " stddev: " << st.stddev << "\n";
     std::cout << "min: " << st.min << " max: " << st.max << " p90: " << st.percentiles[90] << " p99: " << st.percentiles[99] << "\n";
 
@@ -145,13 +155,14 @@ int main(int argc, char **argv) {
             std::cerr << "Failed to open output file for writing: " << out_file << std::endl;
         } else {
             if (out_format == "json") {
-                // build JSON using nlohmann::json
+
                 nlohmann::json jout;
                 jout["workload"] = workload_name;
                 jout["threads"] = threads;
                 jout["duration_seconds"] = duration_seconds;
                 jout["total_batches"] = total_batches.load();
                 jout["throughput_batches_per_s"] = throughput;
+                jout["score"] = score;
                 nlohmann::json jstats;
                 jstats["mean_ms"] = st.mean;
                 jstats["median_ms"] = st.median;
@@ -163,9 +174,9 @@ int main(int argc, char **argv) {
                 jstats["percentiles"] = jperc;
                 jout["stats"] = jstats;
 
-                // histogram (10 bins)
+     
                 nlohmann::json jhist = nlohmann::json::array();
-                // create histogram local
+       
                 std::vector<int> hist_bins(10, 0);
                 if (!samples.empty()) {
                     double minv = st.min;
@@ -187,8 +198,8 @@ int main(int argc, char **argv) {
                 ofs << jout.dump(2) << std::endl;
             } else {
 
-                ofs << "workload,threads,duration_seconds,total_batches,throughput_bps,mean_ms,median_ms,stddev_ms,min_ms,max_ms\n";
-                ofs << workload_name << "," << threads << "," << duration_seconds << "," << total_batches.load() << "," << throughput << "," << st.mean << "," << st.median << "," << st.stddev << "," << st.min << "," << st.max << "\n";
+                ofs << "workload,threads,duration_seconds,total_batches,throughput_bps,score,mean_ms,median_ms,stddev_ms,min_ms,max_ms\n";
+                ofs << workload_name << "," << threads << "," << duration_seconds << "," << total_batches.load() << "," << throughput << "," << score << "," << st.mean << "," << st.median << "," << st.stddev << "," << st.min << "," << st.max << "\n";
             }
             ofs.close();
             std::cout << "Wrote results to " << out_file << "\n";

@@ -68,7 +68,13 @@ BenchmarkResult run_duration_benchmark(const std::string& /*unused*/, double dur
 
 
     double iterations_per_second = total_iterations.load() / duration_seconds;
-    result.score = static_cast<uint64_t>(iterations_per_second * 1000); 
+  
+    auto compact_score = [](double t)->int{
+        if (t <= 0.0) return 0;
+        double v = 1000.0 * std::log10(t + 1.0);
+        return static_cast<int>(std::round(v));
+    };
+    result.score = compact_score(iterations_per_second);
 
     std::cout << std::endl;
     return result;

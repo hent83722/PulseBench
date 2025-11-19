@@ -20,5 +20,5 @@ else
     source "$VENV/bin/activate"
 fi
 
-# Run the GUI with any additional args passed through
+
 exec python gui/main.py "$@"

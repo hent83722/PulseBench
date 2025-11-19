@@ -67,9 +67,9 @@ void register_builtin_workloads() {
         class IOWorkload : public Workload {
         public:
             void init(int threads, size_t workset_bytes) override {
-                // keep a small file path
+
                 path = "/tmp/pulsebench_io_test.bin";
-                // pre-create file
+
                 std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
                 std::vector<char> block(4096, 'x');
                 for (int i=0;i<4;i++) ofs.write(block.data(), block.size());

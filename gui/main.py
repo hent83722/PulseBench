@@ -17,7 +17,7 @@ from PySide6 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
 import psutil
 
-# Path to the compiled CLI binary relative to repo root
+
 BINARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "build", "pulsebench")
 
 UPDATE_INTERVAL_MS = 500
@@ -71,7 +71,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(central)
 
         layout = QtWidgets.QVBoxLayout(central)
-        # Controls: binary chooser and start/stop
+
         controls = QtWidgets.QHBoxLayout()
         self.binary_path_edit = QtWidgets.QLineEdit(BINARY_PATH)
         self.binary_browse = QtWidgets.QPushButton("Browse...")
@@ -86,7 +86,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         layout.addLayout(controls)
 
-        # Plots
+
         self.plot_widget = pg.GraphicsLayoutWidget()
         layout.addWidget(self.plot_widget, 1)
 
@@ -109,35 +109,33 @@ class MainWindow(QtWidgets.QMainWindow):
         self.temp_plot.showGrid(x=True, y=True)
         self.temp_curve = self.temp_plot.plot(pen=pg.mkPen("m", width=2))
 
-        # Data buffers
+
         self.times = deque(maxlen=MAX_POINTS)
         self.cpu_data = deque(maxlen=MAX_POINTS)
         self.mem_data = deque(maxlen=MAX_POINTS)
         self.freq_data = deque(maxlen=MAX_POINTS)
         self.temp_data = deque(maxlen=MAX_POINTS)
 
-        # Status bar
+
         self.status = self.statusBar()
 
-        # Process output log
         self.log = QtWidgets.QTextEdit()
         self.log.setReadOnly(True)
         layout.addWidget(QtWidgets.QLabel("Process output:"))
         layout.addWidget(self.log, 0)
 
-        # Process handle
         self.process = None
-        # watcher to detect process exit
+ 
         self.process_watcher = QtCore.QTimer(self)
         self.process_watcher.setInterval(500)
         self.process_watcher.timeout.connect(self._check_process)
 
-        # Buffer of full metrics (for CSV export)
+      
         self.log_records = []
         self._prompted_save = False
         
 
-        # Worker for metrics
+       
         self.worker = MetricsWorker()
         self.worker_thread = QtCore.QThread(self)
         self.worker.moveToThread(self.worker_thread)
@@ -145,12 +143,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.worker_thread.started.connect(self.worker.start)
         self.worker_thread.start()
 
-        # Connect
         self.start_btn.clicked.connect(self.start_binary)
         self.stop_btn.clicked.connect(self.stop_binary)
         self.binary_browse.clicked.connect(self.browse_binary)
 
-        # Ensure clean shutdown
+
         app = QtWidgets.QApplication.instance()
         if app:
             app.aboutToQuit.connect(self._shutdown)
@@ -178,11 +175,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mem_data.append(data.get("memory_percent", 0.0))
         self.freq_data.append(data.get("cpu_freq") or 0.0)
 
-        # Temp selection: try to pick a sensible temperature reading
+   
         temps = data.get("temps")
         temp_val = None
         if temps:
-            # choose the maximum temperature reading across all sensors (best indicator of hottest core)
+    
             values = []
             for name, entries in temps.items():
                 for e in entries:
@@ -197,7 +194,7 @@ class MainWindow(QtWidgets.QMainWindow):
             temp_val = 0.0
         self.temp_data.append(temp_val)
 
-        # record a full metrics row for possible CSV export
+     
         self.log_records.append({
             'timestamp': datetime.fromtimestamp(t).isoformat(),
             'cpu_percent': data.get('cpu_percent', 0.0),
@@ -206,7 +203,7 @@ class MainWindow(QtWidgets.QMainWindow):
             'cpu_temp': temp_val,
         })
 
-        # Update plots
+    
         if self.times:
             x = list(range(-len(self.times)+1, 1))
             self.cpu_curve.setData(x, list(self.cpu_data))
@@ -223,13 +220,13 @@ class MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, "Binary missing", f"Binary not found or not executable:\n{path}")
             self.status.showMessage("Binary missing")
             return
-        # Start process
+
         try:
-            # make sure output doesn't block GUI
+           
             self.process = subprocess.Popen([path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setsid)
             self.start_btn.setEnabled(False)
             self.stop_btn.setEnabled(True)
-            # start watcher
+         
             self.process_watcher.start()
             self.status.showMessage(f"Started {path} (pid={self.process.pid})")
         except Exception as e:
@@ -241,7 +238,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.status.showMessage("No process")
             return
         try:
-            # kill the process group
+    
             os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
             self.process.wait(timeout=3)
         except Exception:
@@ -250,7 +247,7 @@ class MainWindow(QtWidgets.QMainWindow):
             except Exception:
                 pass
         finally:
-            # stop reader threads if any
+       
             try:
                 if hasattr(self, 'stdout_thread') and self.stdout_thread.isRunning():
                     self.stdout_thread.quit()
@@ -264,12 +261,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.process = None
             self.start_btn.setEnabled(True)
             self.stop_btn.setEnabled(False)
-            # stop watcher
+       
             try:
                 self.process_watcher.stop()
             except Exception:
                 pass
-            # when process stopped, prompt to save CSV if we have records and haven't yet prompted
+        
             if self.log_records and not self._prompted_save:
                 self._prompted_save = True
                 save = QtWidgets.QMessageBox.question(self, "Export CSV", "Process ended — export logged metrics to CSV?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
@@ -288,10 +285,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @QtCore.Slot(str, str)
     def on_process_output(self, stream, line):
-        # append to log
+
         self.log.moveCursor(QtGui.QTextCursor.End)
         self.log.insertPlainText(f"[{stream}] {line}")
-        # keep log reasonably sized
+     
         if self.log.document().blockCount() > 5000:
             cursor = self.log.textCursor()
             cursor.movePosition(QtGui.QTextCursor.Start)
@@ -299,15 +296,15 @@ class MainWindow(QtWidgets.QMainWindow):
             cursor.removeSelectedText()
 
     def _check_process(self):
-        # called by process_watcher timer
+      
         if not self.process:
             return
         if self.process.poll() is not None:
-            # process ended
+       
             self.process_watcher.stop()
             code = self.process.returncode
             self.status.showMessage(f"Process exited (code={code})")
-            # cleanup similar to stop_binary
+           
             try:
                 if hasattr(self, 'stdout_thread') and self.stdout_thread.isRunning():
                     self.stdout_thread.quit()
@@ -323,7 +320,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.process = None
             self.start_btn.setEnabled(True)
             self.stop_btn.setEnabled(False)
-            # prompt to save CSV
+       
             if self.log_records and not self._prompted_save:
                 self._prompted_save = True
                 save = QtWidgets.QMessageBox.question(self, "Export CSV", "Process ended — export logged metrics to CSV?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
