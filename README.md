@@ -200,4 +200,4 @@ Contributions are welcome! You can:
 
 ## License
 
-PulseBench includes a LICENSE file. See LICENSE for full terms.
+PulseBench includes a [LICENSE](./LICENSE) file. See [LICENSE](./LICENSE) for full terms.
