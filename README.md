@@ -6,12 +6,6 @@
 
 --- 
    
-## PulseBench V1.1.0 is here!
-
-See the release log: [V1.1.0Log.md](./V1.1.0Log.md)
-
----
-
 ## PulseBench V1.2.0 (beta)
 
 PulseBench V1.2.0 is a beta release that expands the CLI, improves statistics and adds
