@@ -89,6 +89,11 @@ PulseBench includes several workloads, each targeting different aspects of CPU p
 
 ---
 
+### Installing from the AUR(arch-linux based distros only)
+```bash
+yay -S pulsebench
+```
+
 ## Building from Source
 
 Clone the repository and build using CMake:
