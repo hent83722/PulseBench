@@ -1,8 +1,0 @@
-{
-  "workload": "io",
-  "duration": 5,
-  "threads": 2,
-  "workset_bytes": 1048576,
-  "output": "io_results.json",
-  "format": "json"
-}
